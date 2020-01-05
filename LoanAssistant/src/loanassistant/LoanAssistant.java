@@ -367,9 +367,9 @@ public class LoanAssistant extends JFrame{
 				double minimumPayment = balance * monthlyInterest * multiplier / (multiplier - 1);
 				payment = Double.valueOf(paymentTextField.getText()).doubleValue();
 				if (payment < minimumPayment) {
-					if (JOptionPane.showConfirmDialog(null, "Minimum payment must be $" + new DecimalFormat("0.00").format((int)(minimumPayment)) + "\nDo you want to use the minimum payment?", "Input Error", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
-						paymentTextField.setText(new DecimalFormat("0.00").format((int)(minimumPayment)));
-						payment = minimumPayment;
+					if (JOptionPane.showConfirmDialog(null, "Minimum payment must be $" + new DecimalFormat("0.00").format((int)(minimumPayment + 1.0)) + "\nDo you want to use the minimum payment?", "Input Error", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
+						paymentTextField.setText(new DecimalFormat("0.00").format((int)(minimumPayment + 1.0)));
+						payment = Double.valueOf(paymentTextField.getText()).doubleValue();
 					} else {
 						paymentTextField.requestFocus();
 						return;

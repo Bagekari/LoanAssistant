@@ -495,6 +495,14 @@ public class LoanAssistant extends JFrame{
 			analysisTextArea.append("\nTotal Interest $" + new DecimalFormat("0.00").format((months - 1) * payment + finalPayment - balance));
 		}
 		analysisTextArea.append("\nBalance paid off at: " + calendar.get(Calendar.DATE) + "/" + (calendar.get(Calendar.MONTH) + 1) + "/" + calendar.get(Calendar.YEAR));
+		if (!computeBalance)
+			balanceTextField.setEditable(false);
+		if (!computeInterest)
+			interestTextField.setEditable(false);
+		if (!computeMonths)
+			monthsTextField.setEditable(false);
+		if (!computePayment)
+			paymentTextField.setEditable(false);
 		computeButton.setEnabled(false);
 		newLoanButton.setEnabled(true);
 		newLoanButton.requestFocus();
@@ -502,14 +510,30 @@ public class LoanAssistant extends JFrame{
 	
 	private void newLoanButtonActionPerformed(ActionEvent e) {
 		// clear computed value and analysis
-		if (computePayment)
+		if (computePayment) {
 			paymentTextField.setText("");
-		else if (computeMonths)
+			interestTextField.setEditable(true);
+			monthsTextField.setEditable(true);
+			balanceTextField.setEditable(true);
+		}
+		else if (computeMonths) {
 			monthsTextField.setText("");
-		else if (computeBalance)
+			interestTextField.setEditable(true);
+			balanceTextField.setEditable(true);
+			paymentTextField.setEditable(true);
+		}
+		else if (computeBalance) {
 			balanceTextField.setText("");
-		else if (computeInterest)
+			interestTextField.setEditable(true);
+			monthsTextField.setEditable(true);
+			paymentTextField.setEditable(true);
+		}
+		else if (computeInterest) {
 			interestTextField.setText("");
+			monthsTextField.setEditable(true);
+			balanceTextField.setEditable(true);
+			paymentTextField.setEditable(true);
+		}
 		analysisTextArea.setText("");
 		computeButton.setEnabled(true);
 		newLoanButton.setEnabled(false);
@@ -640,11 +664,14 @@ public class LoanAssistant extends JFrame{
 	}
 	
 	private void monthsTextFieldActionPerformed(ActionEvent e) {
-		monthsTextField.transferFocus();
+		if (computePayment)
+			computeButton.doClick();
+		else
+			monthsTextField.transferFocus();
 	}
 	
 	private void paymentTextFieldActionPerformed(ActionEvent e) {
-		paymentTextField.transferFocus();
+		computeButton.doClick();
 	}
 	
 	public boolean validateDecimalNumber(JTextField textField) {
